@@ -21,7 +21,11 @@ dependencies {
     compile group: 'commons-dbutils', name: 'commons-dbutils', version: '1.6'
     // https://mvnrepository.com/artifact/com.h2database/h2
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.196'
-    compile "org.jetbrains.kotlin:kotlin-reflect:1.2.51-release-125 (1.2.51)"
+//    compile "org.jetbrains.kotlin:kotlin-reflect:1.2.51-release-125 (1.2.51)"
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-reflect
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.2.21'
+
+
 }
 
 compileKotlin {

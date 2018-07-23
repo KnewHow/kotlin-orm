@@ -2,26 +2,29 @@ package quote
 
 import java.sql.Connection
 import java.sql.DriverManager
+import kotlin.reflect.KClass
+import kotlin.reflect.KParameter
 
-interface Quote<T> {
-    fun queryById(sql: String, vararg args: Any?): T?
 
-}
+object Quote{
 
-class QuoteImpl<T>: Quote<T> {
-
-    override fun queryById(sql: String, vararg args: Any?): T? {
+    inline  fun <reified R> queryOne(sql: String, vararg args: Any?): R? {
         val pstmt = getConnection().prepareStatement(sql)
         args.forEachIndexed { index, item -> pstmt.setObject(index+1,item) }
         val rs = pstmt.executeQuery()
-//        val cons = this::class.typeParameters.first().
-        while (rs.next()) {
-
+        val constructor = R :: class.constructors.first()
+        val cParam = constructor.parameters
+        var paramMap = HashMap<KParameter, Any?>()
+        if (rs.next()) {
+             cParam.forEach { paramMap.put(it, rs.getObject(it.name)) }
+            val r = constructor.callBy(paramMap)
+            return r as R
+        } else {
+            return null
         }
-        return  null
     }
 
-    private fun getConnection(): Connection {
+    public fun getConnection(): Connection {
         Class.forName("org.h2.Driver")
         val db = "jdbc:h2:mem:;INIT=runscript from 'classpath:/person.sql'"
         return DriverManager.getConnection(db)

@@ -5,7 +5,13 @@ import org.junit.Test
 class VarargSpec {
     @Test
     fun VarargSpec() {
-        test(1,3,4)
+        val arr = listOf<Int>(1,2,3)
+        test(arr)
+    }
+
+    @Test
+    fun list2Map() {
+
     }
 
     fun test(vararg args: Any?) {
