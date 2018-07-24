@@ -1,3 +1,19 @@
 package orm.test.model
 
-data class Person(val id: Long,val name: String,val age: Int, val address: String, val job: String)
+import annotations.Column
+import annotations.Id
+import annotations.Table
+
+@Table("person")
+data class Person(
+        @property:Id("id")
+        val id: Long,
+        @property:Column("pname")
+        val name: String,
+        @property:Column
+        val age: Int,
+        @property:Column
+        val address: String,
+        @property:Column
+        val job: String
+)
